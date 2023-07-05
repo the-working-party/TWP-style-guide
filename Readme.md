@@ -10,178 +10,109 @@ according to your preferences.
 ![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
 
 ## Content
-* [Javascript](#javascript)
-* [CSS](#css)
-* [Editors](#editors)
 
+- [General Rules](#general-rules)
+- [Javascript](#javascript)
+- [CSS](#css)
+
+---
+
+## General Rules
+
+- 2 spaces for indentation
+- 120 characters per line
+- newline at the end of a file (UNIX-style `\n`)
+- no trailing whitespace
+
+---
 
 ## Javascript
 
-### Tabs for indention
-
-Use tabs for indenting your code and swear an oath to never mix tabs and
-spaces - a special kind of hell is awaiting you otherwise.
-
-### Newlines
-
-Use UNIX-style newlines (`\n`), and a newline character as the last character
-of a file. Windows-style newlines (`\r\n`) are forbidden inside any repository.
-
-### No trailing whitespace
-
-Just like you brush your teeth after every meal, you clean up any trailing
-whitespace in your JS files before committing. Otherwise the rotten smell of
-careless neglect will eventually drive away contributors and/or co-workers.
-
-### Use Semicolons
-
-According to [scientific research][hnsemicolons], the usage of semicolons is
-a core value of our community. Consider the points of [the opposition][], but
-be a traditionalist when it comes to abusing error correction mechanisms for
-cheap syntactic pleasures.
-
-[the opposition]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
-[hnsemicolons]: http://news.ycombinator.com/item?id=1547647
-
-### 160 characters per line
-
-Limit your lines to 160 characters. Yes, screens have gotten much bigger over the
-last few years, but your brain has not. Use the additional room for split screen,
-your editor supports that, right?
+### Use semicolons
 
 ### Use single quotes
 
-Use single quotes, unless you are writing JSON.
-
-*Right:*
-
 ```js
+// Right
 var foo = 'bar';
-```
 
-*Wrong:*
-
-```js
+// Wrong
 var foo = "bar";
 ```
 
 ### Opening braces go on the same line
 
-Your opening braces go on the same line as the statement.
-
-*Right:*
-
 ```js
+// Right
 if (true) {
-	console.log('winning');
+  console.log('winning');
 }
-```
 
-*Wrong:*
-
-```js
+// Wrong
 if (true)
 {
-	console.log('losing');
+  console.log('losing');
 }
 ```
 
-Also, notice the use of whitespace before and after the condition statement.
-
-### Declare one variable per var statement
-
-Declare one variable per var statement, it makes it easier to re-order the
-lines. However, ignore [Crockford][crockfordconvention] when it comes to
-declaring variables deeper inside a function, just the declarations wherever
-they make sense.
-
-*Right:*
+### Declare one variable per statement
 
 ```js
-var keys   = ['foo', 'bar'];
-var values = [23, 42];
+// Right
+var keys = ['foo', 'bar'];
+let values = [23, 42];
 
-var object = {};
+const object = {};
 while (keys.length) {
-	var key = keys.pop();
-	object[key] = values.pop();
+  var key = keys.pop();
+  object[key] = values.pop();
 }
-```
 
-*Wrong:*
-
-```js
+// Wrong
 var keys = ['foo', 'bar'],
-		values = [23, 42],
-		object = {},
-		key;
+    values = [23, 42],
+    object = {},
+    key;
 
 while (keys.length) {
-	key = keys.pop();
-	object[key] = values.pop();
+  key = keys.pop();
+  object[key] = values.pop();
 }
 ```
-
-[crockfordconvention]: http://javascript.crockford.com/code.html
 
 ### Use lowerCamelCase for variables, properties and function names
 
-Variables, properties and function names should use `lowerCamelCase`.  They
-should also be descriptive. Single character variables and uncommon
-abbreviations should generally be avoided.
-
-*Right:*
-
 ```js
+// Right
 var adminUser = db.query('SELECT * FROM users ...');
-```
 
-*Wrong:*
-
-```js
+// Wrong
 var admin_user = db.query('SELECT * FROM users ...');
 ```
 
 ### Use UpperCamelCase for class names
 
-Class names should be capitalized using `UpperCamelCase`.
-
-*Right:*
-
 ```js
-function BankAccount() {
-}
+// Right
+class BankAccount {}
+const BankAccount = (props) => {}
+
+// Wrong
+class bank_Account() {}
+const bank_Account = (props) => {}
 ```
 
-*Wrong:*
+### Use SCREAMING_SNAKE_CASE for constants
 
 ```js
-function bank_Account() {
-}
-```
-
-### Use UPPERCASE for Constants
-
-Constants should be declared as regular variables or static class properties,
-using all uppercase letters.
-
-Node.js / V8 actually supports mozilla's [const][const] extension, but
-unfortunately that cannot be applied to class members, nor is it part of any
-ECMA standard.
-
-*Right:*
-
-```js
+// Right
 var SECOND = 1 * 1000;
 
 function File() {
 }
 File.FULL_PERMISSIONS = 0777;
-```
 
-*Wrong:*
-
-```js
+// Wrong
 const SECOND = 1 * 1000;
 
 function File() {
@@ -189,102 +120,77 @@ function File() {
 File.fullPermissions = 0777;
 ```
 
-[const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
-
-### Object / Array creation
-
-Use trailing commas and put *short* declarations on a single line. Only quote
-keys when your interpreter complains:
-
-*Right:*
+### Object / Array declaration
 
 ```js
+// Right
 var a = ['hello', 'world'];
 var b = {
-	good: 'code',
-	'is generally': 'pretty',
+  good: 'code',
+  'is generally': 'pretty',
 };
-```
 
-*Wrong:*
-
-```js
+// Wrong
 var a = [
-	'hello', 'world'
+  'hello', 'world'
 ];
 var b = {"good": 'code'
-				, is generally: 'pretty'
-				};
+        , is generally: 'pretty'
+        };
 ```
 
-### Use the === operator
-
-Programming is not about remembering [stupid rules][comparisonoperators]. Use
-the triple equality operator as it will work just as expected.
-
-*Right:*
+### Use the strict equality operator
 
 ```js
+// Right
 var a = 0;
 if (a !== '') {
-	console.log('winning');
 }
 
-```
-
-*Wrong:*
-
-```js
+// Wrong
 var a = 0;
 if (a == '') {
-	console.log('losing');
 }
 ```
 
-[comparisonoperators]: https://developer.mozilla.org/en/JavaScript/Reference/Operators/Comparison_Operators
+### Ternary operator (???)
 
-### Use multi-line ternary operator
+> Should this be a hard rule?
 
-The ternary operator should not be used on a single line. Split it up into multiple lines instead.
-
-*Right:*
+Use single-line ternary operators for short expressions only. Split it up into multiple lines otherwise.
 
 ```js
-var foo = (a === b)
-	? 1
-	: 2;
-```
-
-*Wrong:*
-
-```js
+// Right
 var foo = (a === b) ? 1 : 2;
+var bar = (a === b)
+  ? 1
+  : 2;
+
+var daz = (a === b)
+  ? anIncrediblyLong.map((expression) => expression.whichWillTake === aHugeSpace)
+  : false;
+
+// Wrong
+var bar = (a === b) ? anIncrediblyLong.map((expression) => expression.whichWillTake === aHugeSpace) : false;
 ```
 
-### Do not extend built-in prototypes
+### Do not extend built-in prototypes (???)
 
-Do not extend the prototype of native JavaScript objects. Your future self will
-be forever grateful.
-
-*Right:*
+> Should this even be here? Who does this nowadays?
 
 ```js
+// Right
 var a = [];
 if (!a.length) {
-	console.log('winning');
 }
-```
 
-*Wrong:*
-
-```js
+// Wrong
 Array.prototype.empty = function() {
-	return !this.length;
+  return !this.length;
 }
 
 var a = [];
 if (a.empty()) {
-	console.log('losing');
 }
 ```
 
@@ -292,64 +198,58 @@ if (a.empty()) {
 
 Any non-trivial conditions should be assigned to a descriptively named variable or function:
 
-*Right:*
-
 ```js
+// Right
 var isValidPassword = password.length >= 4 && /^(?=.*\d).{4,}$/.test(password);
-
 if (isValidPassword) {
-	console.log('winning');
 }
-```
 
-*Wrong:*
-
-```js
+// Wrong
 if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
-	console.log('losing');
 }
 ```
 
-### Write small functions
+### Write small functions (???)
+
+> This can be moved to a "general principles" doc.
+> It shouldn't be a hard rule.
 
 Keep your functions short. A good function fits on a slide that the people in
 the last row of a big room can comfortably read. So don't count on them having
 perfect vision and limit yourself to ~15 lines of code per function.
 
-### Return early from functions
+### Be a "Never Nester"
+
+> This can be moved to a "general principles" doc.
 
 To avoid deep nesting of if-statements, always return a function's value as early
 as possible.
 
-*Right:*
-
 ```js
+// Right
 function isPercentage(val) {
-	if (val < 0) {
-		return false;
-	}
+  if (val < 0) {
+    return false;
+  }
 
-	if (val > 100) {
-		return false;
-	}
+  if (val > 100) {
+    return false;
+  }
 
-	return true;
+  return true;
 }
-```
 
-*Wrong:*
-
-```js
+// Wrong
 function isPercentage(val) {
-	if (val >= 0) {
-		if (val < 100) {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
+  if (val >= 0) {
+    if (val < 100) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
 }
 ```
 
@@ -357,68 +257,69 @@ Or for this particular example it may also be fine to shorten things even
 further:
 
 ```js
+// Great
 function isPercentage(val) {
-	var isInRange = (val >= 0 && val <= 100);
-	return isInRange;
+  var isInRange = (val >= 0 && val <= 100);
+  return isInRange;
 }
 ```
 
-### Name your closures
+### Name your closures (???)
+
+> Are are keeping this? I don't remember seeing any of our code using this rule.
 
 Feel free to give your closures a name. It shows that you care about them, and
 will produce better stack traces, heap and cpu profiles.
 
-*Right:*
-
 ```js
+// Right
 req.on('end', function onEnd() {
-	console.log('winning');
 });
 ```
 
 *Wrong:*
 
 ```js
+// Wrong
 req.on('end', function() {
-	console.log('losing');
 });
 ```
 
-### No nested closures
+### No nested closures (???)
+
+> Are are keeping this? I don't remember seeing any of our code using this rule.
 
 Use closures, but don't nest them. Otherwise your code will become a mess.
 
-*Right:*
-
 ```js
+// Right
 setTimeout(function() {
-	client.connect(afterConnect);
+  client.connect(afterConnect);
 }, 1000);
 
 function afterConnect() {
-	console.log('winning');
+  console.log('winning');
 }
-```
 
-*Wrong:*
-
-```js
+// Wrong
 setTimeout(function() {
-	client.connect(function() {
-		console.log('losing');
-	});
+  client.connect(function() {
+    console.log('losing');
+  });
 }, 1000);
 ```
 
-### Use slashes for comments
+### Use slashes for comments (???)
+
+> Is this how we want comments?
+> This can be moved to a "general principles" doc.
 
 Use slashes for both single line and multi line comments. Try to write
 comments that explain higher level mechanisms or clarify difficult
 segments of your code. Don't use comments to restate trivial things.
 
-*Right:*
-
 ```js
+// Right
 // 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE'', 'SOMETHING', 'VALUE']
 var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
 
@@ -426,39 +327,42 @@ var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
 // redis counter used for statistics will cause an exception. This needs
 // to be fixed in a later iteration.
 function loadUser(id, cb) {
-	// ...
+  // ...
 }
 
 var isSessionValid = (session.expires < Date.now());
 if (isSessionValid) {
-	// ...
+  // ...
 }
-```
 
-*Wrong:*
 
-```js
+
+// Wrong
 /* Execute a regex */
 var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
 
 // Usage: loadUser(5, function() { ... })
 function loadUser(id, cb) {
-	// ...
+  // ...
 }
 
 // Check if the session is valid
 var isSessionValid = (session.expires < Date.now());
 // If the session is valid
 if (isSessionValid) {
-	// ...
+  // ...
 }
 ```
 
-### Object.freeze, Object.preventExtensions, Object.seal, with, eval
+### `Object.freeze`, `Object.preventExtensions`, `Object.seal`, `with`, `eval` (???)
+
+> Apart from eval, is this still valid in 2023? Eg: Functional Programming uses `Object.freeze`
 
 Crazy shit that you will probably never need. Stay away from it.
 
-### Getters and setters
+### Getters and setters (???)
+
+> Is this still valid in 2023?
 
 Do not use setters, they cause more problems for people who try to use your
 software than they can solve.
@@ -468,103 +372,87 @@ providing a length property for a collection class.
 
 [sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
 
+---
 
 ## CSS
 
-### Naming conventions
+### Class names should be specific
 
-**Class names should be specific**
-
-> Use class names that are as short as possible but as long as necessary.
-
-*Right:*
+Use class names that are as short as possible but as long as necessary.
 
 ```css
-.navigation
-.author
-.header
-.info-box
-.maps
-```
-
-*Wrong:*
-
-```css
-.nav
-.atr
-.a
-.b
-```
-
-**Classes are all lower case**
-
-
-*Right:*
-
-```css
-.headeline
-.mapbox
-```
-
-*Wrong:*
-
-```css
-.headLine
-.mapsBox
-```
-
-**Use dash for chaining words in classes**
-
-```css
-box-header
-a-really-long-chain-of-classes
-parent-name-child-name
-```
-
-**Parent class names should be repeated for nested elements**
-
-_E.g. [parent]-[child]-[subchild]_
-
-```css
-.maps
-	.maps-header
-	.maps-content
-		.maps-content-box
-	.maps-footer
-```
-
-**Adding classes to an existing element repeats it's nested position in its name**
-
-```css
-.maps
-	.maps-box .maps-box-small
-	.maps-box .maps-box-highlight
-```
-
-**Never attach CSS rules to js- classes**
-
-
-## Editors
-
-**Use tab for intendations**
-
-_Tabs can be configured to display to everyones liking. Spaces can't!_
-
-**Configure your editor to "show invisibles"**
-
-_This will allow you to eliminate end of line whitespace, unintended blank line whitespace, show when you have spaces where you should have tabs and avoid polluting commits._
-
-Sublime settings eg:
-
-```json
-{
-	"detect_indentation": false,
-	"dictionary": "Packages/Language - English/en_AU.dic",
-	"draw_white_space": "all",
-	"scroll_past_end": true,
-	"word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?",
-	"word_wrap": false
+/* Right */
+.header {
 }
 
+.author {
+}
+
+.info-box {
+}
+
+/* Wrong */
+.hd {
+}
+
+.atr {
+}
+
+.ib {
+}
 ```
 
+### Classes are all lower case
+
+*Right:*
+
+```css
+.headline {
+}
+
+.head-line {
+}
+```
+
+*Wrong:*
+
+```css
+.headLine {
+}
+
+.Headline {
+}
+```
+
+### Use dash for chaining words in classes
+
+```css
+.box-header {
+}
+
+.a-really-long-class-name {
+}
+```
+
+### Prefer data-attribute as selectors in JS
+
+```html
+<!-- HTML -->
+<button class="button button--primary" data-toggle-button>
+  Open menu
+</button>
+```
+
+```css
+/* CSS */
+.button {
+}
+
+.button--primary {
+}
+```
+
+```js
+// JS
+const toggleButton = container.querySelector('[data-toggle-button]');
+```
