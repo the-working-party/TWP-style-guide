@@ -2,457 +2,261 @@
 
 This is a guide for writing consistent and aesthetically pleasing code.
 
-This guide was created by [Felix Geisendörfer](http://felixge.de/) and is
-licensed under the [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
-license. You are encouraged to fork this repository and make adjustments
-according to your preferences.
-
-![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
-
 ## Content
 
-- [General Rules](#general-rules)
-- [Javascript](#javascript)
-- [CSS](#css)
+1. Core Principles
+2. [Javascript](/JAVASCRIPT.md)
+3. [CSS & SASS](/CSS-SASS.md)
+4. [Liquid & HTML](/LIQUID-HTML.md)
+
+<br>
+<br>
 
 ---
 
-## General Rules
+## Core principles
 
-- 2 spaces for indentation
-- 120 characters per line
-- newline at the end of a file (UNIX-style `\n`)
-- no trailing whitespace
+Keep in mind that rules are a _guiding north_, not a purpose in itself. Some times rules will be broken, and that is ok. The important thing is that, by knowing these principle, you know _why_ you have to make an exception.
 
----
+One good example is when working with an old project, or with code handed over by another agency: by strictly enforcing our styles, we can cause unnecessary confusion. Our number one principle is then to **be consistent**.
 
-## Javascript
+<br>
+<br>
 
-### Use semicolons
+### 1. Be consistent
 
-### Use single quotes
+Humans are fabulous pattern detectors. Since the beginning of our time we understood crop seasons, were guided by patterns in the night sky, and it couldn't be different when coding.
 
-```js
-// Right
-var foo = 'bar';
+The more we stick to coding patterns, we train ourselves to read and understand the code written from our fellow team devs – as well as write faster code by removing tiny question on _how_ to write it.
 
-// Wrong
-var foo = "bar";
-```
-
-### Opening braces go on the same line
-
-```js
-// Right
-if (true) {
-  console.log('winning');
+```css
+/* Inconsistency leads to madness */
+.my-block {
 }
 
-// Wrong
-if (true)
-{
-  console.log('losing');
+.WildNewBlock {
+}
+
+.WHATISTHIS {
 }
 ```
 
-### Declare one variable per statement
+This principle applies to _everything, everywhere... all at once_. No matter if you're writing javascript, css, documentation or theme settings, keep it consistent – even if that means to break the rules.
 
-```js
-// Right
-var keys = ['foo', 'bar'];
-let values = [23, 42];
+For example, if the codebase is using a different naming convention, try to keep it:
 
-const object = {};
-while (keys.length) {
-  var key = keys.pop();
-  object[key] = values.pop();
+```css
+.TheirClasses__WereNamed--LikeThis {
 }
 
-// Wrong
-var keys = ['foo', 'bar'],
-    values = [23, 42],
-    object = {},
-    key;
+/* This becomes right */
+.SoWeWrite__NewOnes--LikeThat {
+}
 
-while (keys.length) {
-  key = keys.pop();
-  object[key] = values.pop();
+/* This becomes wrong */
+.even-if__we-write-it--like-this {
 }
 ```
 
-### Use lowerCamelCase for variables, properties and function names
+Take that with a grain of salt, however. If the codebase inherited does everything in jQuery or abbreviates all their variable names, _you probably should not keep following that pattern_. More on that in the following sections.
 
 ```js
-// Right
-var adminUser = db.query('SELECT * FROM users ...');
+// This is what we got...
+const lgd = (a) => a.filter(u => u.l);
 
-// Wrong
-var admin_user = db.query('SELECT * FROM users ...');
+// ...but we will be better than that
+const filterLoggedInUsers = (userArray) => userArray.filter(user => user.loggedIn)
 ```
 
-### Use UpperCamelCase for class names
+Another example of consistency
 
 ```js
-// Right
-class BankAccount {}
-const BankAccount = (props) => {}
+// Just being silly
+let myList = [], my_Obj = {}
+   var me_numeroUno      = 1;
 
-// Wrong
-class bank_Account() {}
-const bank_Account = (props) => {}
+
+// Better now... and considering these variables should not change
+const myList = [];
+const myObject = {};
+const myNumber = 1;
 ```
 
-### Use SCREAMING_SNAKE_CASE for constants
+<br>
+<br>
 
-```js
-// Right
-var SECOND = 1 * 1000;
+### 2. Be obvious
 
-function File() {
-}
-File.FULL_PERMISSIONS = 0777;
+Some times we get addicted to achieving the smallest code possible – and we often tap ourselves in the back when we get to really short code or even one-liners. However, think that once the code is passed to a fellow developer hands, they don't share your brain and thoughts, and may likely take a long time to decrypt your code. Leave minification and code mangling to bundlers!
 
-// Wrong
-const SECOND = 1 * 1000;
+Generally speaking, the more _obvious_ you make it for someone else, the easier it will be to work with it. That said, it might be possible to be overly verbose, and there is certainly a fine line between too little and too much.
 
-function File() {
-}
-File.fullPermissions = 0777;
-```
+#### When is too little
 
-### Object / Array declaration
+- Be descriptive with non-trivial conditions
 
-```js
-// Right
-var a = ['hello', 'world'];
-var b = {
-  good: 'code',
-  'is generally': 'pretty',
-};
-
-// Wrong
-var a = [
-  'hello', 'world'
-];
-var b = {"good": 'code'
-        , is generally: 'pretty'
-        };
-```
-
-### Use the strict equality operator
-
-```js
-// Right
-var a = 0;
-if (a !== '') {
-}
-
-// Wrong
-var a = 0;
-if (a == '') {
-}
-```
-
-### Ternary operator (???)
-
-> Should this be a hard rule?
-
-Use single-line ternary operators for short expressions only. Split it up into multiple lines otherwise.
-
-```js
-// Right
-var foo = (a === b) ? 1 : 2;
-var bar = (a === b)
-  ? 1
-  : 2;
-
-var daz = (a === b)
-  ? anIncrediblyLong.map((expression) => expression.whichWillTake === aHugeSpace)
-  : false;
-
-// Wrong
-var bar = (a === b) ? anIncrediblyLong.map((expression) => expression.whichWillTake === aHugeSpace) : false;
-```
-
-### Do not extend built-in prototypes (???)
-
-> Should this even be here? Who does this nowadays?
-
-```js
-// Right
-var a = [];
-if (!a.length) {
-}
-
-// Wrong
-Array.prototype.empty = function() {
-  return !this.length;
-}
-
-var a = [];
-if (a.empty()) {
-}
-```
-
-### Use descriptive conditions
-
-Any non-trivial conditions should be assigned to a descriptively named variable or function:
-
-```js
-// Right
-var isValidPassword = password.length >= 4 && /^(?=.*\d).{4,}$/.test(password);
-if (isValidPassword) {
-}
-
-// Wrong
-if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
-}
-```
-
-### Write small functions (???)
-
-> This can be moved to a "general principles" doc.
-> It shouldn't be a hard rule.
-
-Keep your functions short. A good function fits on a slide that the people in
-the last row of a big room can comfortably read. So don't count on them having
-perfect vision and limit yourself to ~15 lines of code per function.
-
-### Be a "Never Nester"
-
-> This can be moved to a "general principles" doc.
-
-To avoid deep nesting of if-statements, always return a function's value as early
-as possible.
-
-```js
-// Right
-function isPercentage(val) {
-  if (val < 0) {
-    return false;
+  ```js
+  // Wrong
+  if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
   }
 
-  if (val > 100) {
-    return false;
+  // Right
+  const isValidPassword = password.length >= 4 && /^(?=.*\d).{4,}$/.test(password);
+  if (isValidPassword) {
+  }
+  ```
+
+- When naming things, avoid abbreviation. Write as little as possible, but as long as necessary
+
+  ```js
+  // Wrong
+  const dS = 10;
+  const atr = 'William Shakespeare';
+
+  // Right
+  const delaySeconds = 10;
+  const author = 'William Shakespeare';
+  ```
+
+- If an argument expects a specific unit, be clear
+
+  ```js
+  // Wrong
+  function sleep(delay = 1) {
   }
 
-  return true;
-}
+  // Right
+  function sleep(delaySeconds = 1) {
+  }
+  ```
 
-// Wrong
-function isPercentage(val) {
-  if (val >= 0) {
-    if (val < 100) {
-      return true;
+#### When is too much
+
+- Avoid comments that tells exactly what the code is already saying
+
+  ```js
+  // If the user is logged in, do this
+  if (user.isLoggedIn) {
+    doThis();
+  }
+  ```
+
+- If your name gets too long, maybe there is something wrong with the code
+
+  ```js
+  // Wrong
+  function updateTheUserStatusThenReloadThePage() {
+  }
+
+  // Right
+  function updateUserStatus() {
+  }
+
+  function reloadPage() {
+  }
+  ```
+
+<br>
+<br>
+
+### 3. Be a never nester
+
+Well, it may be impossible to never nest, but there is a certain threshold to how many levels deep we can go before getting completely lost. For Never nesters, that threshold could be as low as 2-3 levels. There are some easy strategies you can apply to achieve that:
+
+- In **javascript**, you can use guard clauses to exit early, or extract blocks into their own functions.
+
+  ```js
+  // Wrong
+  function isPercentage(val) {
+    if (val >= 0) {
+      if (val < 100) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
-  } else {
-    return false;
   }
-}
-```
 
-Or for this particular example it may also be fine to shorten things even
-further:
+  // Better
+  function isPercentage(val) {
+    if (val < 0) {
+      return false;
+    }
 
-```js
-// Great
-function isPercentage(val) {
-  var isInRange = (val >= 0 && val <= 100);
-  return isInRange;
-}
-```
+    if (val > 100) {
+      return false;
+    }
 
-### Name your closures (???)
+    return true;
+  }
 
-> Are are keeping this? I don't remember seeing any of our code using this rule.
+  // Great
+  function isPercentage(val) {
+    var isInRange = (val >= 0 && val <= 100);
+    return isInRange;
+  }
+  ```
 
-Feel free to give your closures a name. It shows that you care about them, and
-will produce better stack traces, heap and cpu profiles.
+- In **liquid**, you may capture blocks into liquid variables.
+- In **HTML**, ask yourself if all those nested `<div>`s are really necessary.
+- In **SASS**, try not to nest rules just because you can (use **BEM** and your nesting needs will drastically reduce)
 
-```js
-// Right
-req.on('end', function onEnd() {
-});
-```
+  ```scss
+  // Wrong
+  .block {
+    .element {
+      .modifier {
+        &:hover {
+        }
+      }
 
-*Wrong:*
+      .other-modifier {
+      }
+    }
 
-```js
-// Wrong
-req.on('end', function() {
-});
-```
+    .other-element {
+    }
+  }
 
-### No nested closures (???)
+  // Right
+  .block {
+  }
 
-> Are are keeping this? I don't remember seeing any of our code using this rule.
+  .block__element {
+  }
 
-Use closures, but don't nest them. Otherwise your code will become a mess.
+  .block__other-element {
+  }
 
-```js
-// Right
-setTimeout(function() {
-  client.connect(afterConnect);
-}, 1000);
+  .block__element--modifier {
+  }
 
-function afterConnect() {
-  console.log('winning');
-}
+  .block__element--other-modifier {
+  }
+  ```
 
-// Wrong
-setTimeout(function() {
-  client.connect(function() {
-    console.log('losing');
-  });
-}, 1000);
-```
+No matter the language, the idea is the same: keep nesting to a minimum, making it easier to keep track of what is going on.
 
-### Use slashes for comments (???)
-
-> Is this how we want comments?
-> This can be moved to a "general principles" doc.
-
-Use slashes for both single line and multi line comments. Try to write
-comments that explain higher level mechanisms or clarify difficult
-segments of your code. Don't use comments to restate trivial things.
-
-```js
-// Right
-// 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE'', 'SOMETHING', 'VALUE']
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
-
-// This function has a nasty side effect where a failure to increment a
-// redis counter used for statistics will cause an exception. This needs
-// to be fixed in a later iteration.
-function loadUser(id, cb) {
-  // ...
-}
-
-var isSessionValid = (session.expires < Date.now());
-if (isSessionValid) {
-  // ...
-}
-
-
-
-// Wrong
-/* Execute a regex */
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
-
-// Usage: loadUser(5, function() { ... })
-function loadUser(id, cb) {
-  // ...
-}
-
-// Check if the session is valid
-var isSessionValid = (session.expires < Date.now());
-// If the session is valid
-if (isSessionValid) {
-  // ...
-}
-```
-
-### `Object.freeze`, `Object.preventExtensions`, `Object.seal`, `with`, `eval` (???)
-
-> Apart from eval, is this still valid in 2023? Eg: Functional Programming uses `Object.freeze`
-
-Crazy shit that you will probably never need. Stay away from it.
-
-### Getters and setters (???)
-
-> Is this still valid in 2023?
-
-Do not use setters, they cause more problems for people who try to use your
-software than they can solve.
-
-Feel free to use getters that are free from [side effects][sideeffect], like
-providing a length property for a collection class.
-
-[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+<br>
+<br>
 
 ---
 
-## CSS
+## Code formatting
 
-### Class names should be specific
+- Use 2 spaces for indentation (don't use tabs)
+- Aim for 120 characters per line
+- Add a newline at the end of a file (UNIX-style `\n`)
+- Don't leave trailing whitespace
 
-Use class names that are as short as possible but as long as necessary.
+<br>
+<br>
 
-```css
-/* Right */
-.header {
-}
+---
 
-.author {
-}
+## Help text, theme editor settings and other text
 
-.info-box {
-}
-
-/* Wrong */
-.hd {
-}
-
-.atr {
-}
-
-.ib {
-}
-```
-
-### Classes are all lower case
-
-*Right:*
-
-```css
-.headline {
-}
-
-.head-line {
-}
-```
-
-*Wrong:*
-
-```css
-.headLine {
-}
-
-.Headline {
-}
-```
-
-### Use dash for chaining words in classes
-
-```css
-.box-header {
-}
-
-.a-really-long-class-name {
-}
-```
-
-### Prefer data-attribute as selectors in JS
-
-```html
-<!-- HTML -->
-<button class="button button--primary" data-toggle-button>
-  Open menu
-</button>
-```
-
-```css
-/* CSS */
-.button {
-}
-
-.button--primary {
-}
-```
-
-```js
-// JS
-const toggleButton = container.querySelector('[data-toggle-button]');
-```
+- Use `Sentence case` instead of `Title Case` or `UPPER CASE`
+- Aim for consistent language when writing help text: The same setting in different liquid sections should _probably_ have the same text.
