@@ -18,7 +18,7 @@ Work in progress
 
 ```js
 // Wrong
-var foo = 'bar
+var foo = 'bar'
 
 // Right
 var foo = 'bar';
