@@ -65,7 +65,7 @@ Take that with a grain of salt, however. If the codebase inherited does everythi
 const lgd = (a) => a.filter(u => u.l);
 
 // ...but we will be better than that
-const filterLoggedInUsers = (userArray) => userArray.filter(user => user.loggedIn)
+const filterLoggedInUsers = (userArray) => userArray.filter(user => user.loggedIn);
 ```
 
 Another example of consistency
@@ -91,7 +91,7 @@ Some times we get addicted to achieving the smallest code possible – and we o
 
 Generally speaking, the more _obvious_ you make it for someone else, the easier it will be to work with it. That said, it might be possible to be overly verbose, and there is certainly a fine line between too little and too much.
 
-#### When is too little
+#### When is too little?
 
 - Be descriptive with non-trivial conditions
 
@@ -130,7 +130,7 @@ Generally speaking, the more _obvious_ you make it for someone else, the easier 
   }
   ```
 
-#### When is too much
+#### When is too much?
 
 - Avoid comments that tells exactly what the code is already saying
 
