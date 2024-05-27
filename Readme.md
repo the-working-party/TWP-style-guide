@@ -2,569 +2,261 @@
 
 This is a guide for writing consistent and aesthetically pleasing code.
 
-This guide was created by [Felix Geisendörfer](http://felixge.de/) and is
-licensed under the [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
-license. You are encouraged to fork this repository and make adjustments
-according to your preferences.
-
-![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
-
 ## Content
-* [Javascript](#javascript)
-* [CSS](#css)
-* [Editors](#editors)
 
+1. Core Principles
+2. [Javascript](/JAVASCRIPT.md)
+3. [CSS & SASS](/CSS-SASS.md)
+4. [Liquid & HTML](/LIQUID-HTML.md)
 
-## Javascript
+<br>
+<br>
 
-### Tabs for indention
+---
 
-Use tabs for indenting your code and swear an oath to never mix tabs and
-spaces - a special kind of hell is awaiting you otherwise.
+## Core principles
 
-### Newlines
+Keep in mind that rules are a _guiding north_, not a purpose in itself. Some times rules will be broken, and that is ok. The important thing is that, by knowing these principle, you know _why_ you have to make an exception.
 
-Use UNIX-style newlines (`\n`), and a newline character as the last character
-of a file. Windows-style newlines (`\r\n`) are forbidden inside any repository.
+One good example is when working with an old project, or with code handed over by another agency: by strictly enforcing our styles, we can cause unnecessary confusion. Our number one principle is then to **be consistent**.
 
-### No trailing whitespace
+<br>
+<br>
 
-Just like you brush your teeth after every meal, you clean up any trailing
-whitespace in your JS files before committing. Otherwise the rotten smell of
-careless neglect will eventually drive away contributors and/or co-workers.
+### 1. Be consistent
 
-### Use Semicolons
+Humans are fabulous pattern detectors. Since the beginning of our time we understood crop seasons, were guided by patterns in the night sky, and it couldn't be different when coding.
 
-According to [scientific research][hnsemicolons], the usage of semicolons is
-a core value of our community. Consider the points of [the opposition][], but
-be a traditionalist when it comes to abusing error correction mechanisms for
-cheap syntactic pleasures.
-
-[the opposition]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
-[hnsemicolons]: http://news.ycombinator.com/item?id=1547647
-
-### 160 characters per line
-
-Limit your lines to 160 characters. Yes, screens have gotten much bigger over the
-last few years, but your brain has not. Use the additional room for split screen,
-your editor supports that, right?
-
-### Use single quotes
-
-Use single quotes, unless you are writing JSON.
-
-*Right:*
-
-```js
-var foo = 'bar';
-```
-
-*Wrong:*
-
-```js
-var foo = "bar";
-```
-
-### Opening braces go on the same line
-
-Your opening braces go on the same line as the statement.
-
-*Right:*
-
-```js
-if (true) {
-	console.log('winning');
-}
-```
-
-*Wrong:*
-
-```js
-if (true)
-{
-	console.log('losing');
-}
-```
-
-Also, notice the use of whitespace before and after the condition statement.
-
-### Declare one variable per var statement
-
-Declare one variable per var statement, it makes it easier to re-order the
-lines. However, ignore [Crockford][crockfordconvention] when it comes to
-declaring variables deeper inside a function, just the declarations wherever
-they make sense.
-
-*Right:*
-
-```js
-var keys   = ['foo', 'bar'];
-var values = [23, 42];
-
-var object = {};
-while (keys.length) {
-	var key = keys.pop();
-	object[key] = values.pop();
-}
-```
-
-*Wrong:*
-
-```js
-var keys = ['foo', 'bar'],
-		values = [23, 42],
-		object = {},
-		key;
-
-while (keys.length) {
-	key = keys.pop();
-	object[key] = values.pop();
-}
-```
-
-[crockfordconvention]: http://javascript.crockford.com/code.html
-
-### Use lowerCamelCase for variables, properties and function names
-
-Variables, properties and function names should use `lowerCamelCase`.  They
-should also be descriptive. Single character variables and uncommon
-abbreviations should generally be avoided.
-
-*Right:*
-
-```js
-var adminUser = db.query('SELECT * FROM users ...');
-```
-
-*Wrong:*
-
-```js
-var admin_user = db.query('SELECT * FROM users ...');
-```
-
-### Use UpperCamelCase for class names
-
-Class names should be capitalized using `UpperCamelCase`.
-
-*Right:*
-
-```js
-function BankAccount() {
-}
-```
-
-*Wrong:*
-
-```js
-function bank_Account() {
-}
-```
-
-### Use UPPERCASE for Constants
-
-Constants should be declared as regular variables or static class properties,
-using all uppercase letters.
-
-Node.js / V8 actually supports mozilla's [const][const] extension, but
-unfortunately that cannot be applied to class members, nor is it part of any
-ECMA standard.
-
-*Right:*
-
-```js
-var SECOND = 1 * 1000;
-
-function File() {
-}
-File.FULL_PERMISSIONS = 0777;
-```
-
-*Wrong:*
-
-```js
-const SECOND = 1 * 1000;
-
-function File() {
-}
-File.fullPermissions = 0777;
-```
-
-[const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
-
-### Object / Array creation
-
-Use trailing commas and put *short* declarations on a single line. Only quote
-keys when your interpreter complains:
-
-*Right:*
-
-```js
-var a = ['hello', 'world'];
-var b = {
-	good: 'code',
-	'is generally': 'pretty',
-};
-```
-
-*Wrong:*
-
-```js
-var a = [
-	'hello', 'world'
-];
-var b = {"good": 'code'
-				, is generally: 'pretty'
-				};
-```
-
-### Use the === operator
-
-Programming is not about remembering [stupid rules][comparisonoperators]. Use
-the triple equality operator as it will work just as expected.
-
-*Right:*
-
-```js
-var a = 0;
-if (a !== '') {
-	console.log('winning');
-}
-
-```
-
-*Wrong:*
-
-```js
-var a = 0;
-if (a == '') {
-	console.log('losing');
-}
-```
-
-[comparisonoperators]: https://developer.mozilla.org/en/JavaScript/Reference/Operators/Comparison_Operators
-
-### Use multi-line ternary operator
-
-The ternary operator should not be used on a single line. Split it up into multiple lines instead.
-
-*Right:*
-
-```js
-var foo = (a === b)
-	? 1
-	: 2;
-```
-
-*Wrong:*
-
-```js
-var foo = (a === b) ? 1 : 2;
-```
-
-### Do not extend built-in prototypes
-
-Do not extend the prototype of native JavaScript objects. Your future self will
-be forever grateful.
-
-*Right:*
-
-```js
-var a = [];
-if (!a.length) {
-	console.log('winning');
-}
-```
-
-*Wrong:*
-
-```js
-Array.prototype.empty = function() {
-	return !this.length;
-}
-
-var a = [];
-if (a.empty()) {
-	console.log('losing');
-}
-```
-
-### Use descriptive conditions
-
-Any non-trivial conditions should be assigned to a descriptively named variable or function:
-
-*Right:*
-
-```js
-var isValidPassword = password.length >= 4 && /^(?=.*\d).{4,}$/.test(password);
-
-if (isValidPassword) {
-	console.log('winning');
-}
-```
-
-*Wrong:*
-
-```js
-if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
-	console.log('losing');
-}
-```
-
-### Write small functions
-
-Keep your functions short. A good function fits on a slide that the people in
-the last row of a big room can comfortably read. So don't count on them having
-perfect vision and limit yourself to ~15 lines of code per function.
-
-### Return early from functions
-
-To avoid deep nesting of if-statements, always return a function's value as early
-as possible.
-
-*Right:*
-
-```js
-function isPercentage(val) {
-	if (val < 0) {
-		return false;
-	}
-
-	if (val > 100) {
-		return false;
-	}
-
-	return true;
-}
-```
-
-*Wrong:*
-
-```js
-function isPercentage(val) {
-	if (val >= 0) {
-		if (val < 100) {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-}
-```
-
-Or for this particular example it may also be fine to shorten things even
-further:
-
-```js
-function isPercentage(val) {
-	var isInRange = (val >= 0 && val <= 100);
-	return isInRange;
-}
-```
-
-### Name your closures
-
-Feel free to give your closures a name. It shows that you care about them, and
-will produce better stack traces, heap and cpu profiles.
-
-*Right:*
-
-```js
-req.on('end', function onEnd() {
-	console.log('winning');
-});
-```
-
-*Wrong:*
-
-```js
-req.on('end', function() {
-	console.log('losing');
-});
-```
-
-### No nested closures
-
-Use closures, but don't nest them. Otherwise your code will become a mess.
-
-*Right:*
-
-```js
-setTimeout(function() {
-	client.connect(afterConnect);
-}, 1000);
-
-function afterConnect() {
-	console.log('winning');
-}
-```
-
-*Wrong:*
-
-```js
-setTimeout(function() {
-	client.connect(function() {
-		console.log('losing');
-	});
-}, 1000);
-```
-
-### Use slashes for comments
-
-Use slashes for both single line and multi line comments. Try to write
-comments that explain higher level mechanisms or clarify difficult
-segments of your code. Don't use comments to restate trivial things.
-
-*Right:*
-
-```js
-// 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE'', 'SOMETHING', 'VALUE']
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
-
-// This function has a nasty side effect where a failure to increment a
-// redis counter used for statistics will cause an exception. This needs
-// to be fixed in a later iteration.
-function loadUser(id, cb) {
-	// ...
-}
-
-var isSessionValid = (session.expires < Date.now());
-if (isSessionValid) {
-	// ...
-}
-```
-
-*Wrong:*
-
-```js
-/* Execute a regex */
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
-
-// Usage: loadUser(5, function() { ... })
-function loadUser(id, cb) {
-	// ...
-}
-
-// Check if the session is valid
-var isSessionValid = (session.expires < Date.now());
-// If the session is valid
-if (isSessionValid) {
-	// ...
-}
-```
-
-### Object.freeze, Object.preventExtensions, Object.seal, with, eval
-
-Crazy shit that you will probably never need. Stay away from it.
-
-### Getters and setters
-
-Do not use setters, they cause more problems for people who try to use your
-software than they can solve.
-
-Feel free to use getters that are free from [side effects][sideeffect], like
-providing a length property for a collection class.
-
-[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
-
-
-## CSS
-
-### Naming conventions
-
-**Class names should be specific**
-
-> Use class names that are as short as possible but as long as necessary.
-
-*Right:*
+The more we stick to coding patterns, we train ourselves to read and understand the code written from our fellow team devs – as well as write faster code by removing tiny question on _how_ to write it.
 
 ```css
-.navigation
-.author
-.header
-.info-box
-.maps
-```
-
-*Wrong:*
-
-```css
-.nav
-.atr
-.a
-.b
-```
-
-**Classes are all lower case**
-
-
-*Right:*
-
-```css
-.headeline
-.mapbox
-```
-
-*Wrong:*
-
-```css
-.headLine
-.mapsBox
-```
-
-**Use dash for chaining words in classes**
-
-```css
-box-header
-a-really-long-chain-of-classes
-parent-name-child-name
-```
-
-**Parent class names should be repeated for nested elements**
-
-_E.g. [parent]-[child]-[subchild]_
-
-```css
-.maps
-	.maps-header
-	.maps-content
-		.maps-content-box
-	.maps-footer
-```
-
-**Adding classes to an existing element repeats it's nested position in its name**
-
-```css
-.maps
-	.maps-box .maps-box-small
-	.maps-box .maps-box-highlight
-```
-
-**Never attach CSS rules to js- classes**
-
-
-## Editors
-
-**Use tab for intendations**
-
-_Tabs can be configured to display to everyones liking. Spaces can't!_
-
-**Configure your editor to "show invisibles"**
-
-_This will allow you to eliminate end of line whitespace, unintended blank line whitespace, show when you have spaces where you should have tabs and avoid polluting commits._
-
-Sublime settings eg:
-
-```json
-{
-	"detect_indentation": false,
-	"dictionary": "Packages/Language - English/en_AU.dic",
-	"draw_white_space": "all",
-	"scroll_past_end": true,
-	"word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?",
-	"word_wrap": false
+/* Inconsistency leads to madness */
+.my-block {
 }
 
+.WildNewBlock {
+}
+
+.WHATISTHIS {
+}
 ```
 
+This principle applies to _everything, everywhere... all at once_. No matter if you're writing javascript, css, documentation or theme settings, keep it consistent – even if that means to break the rules.
+
+For example, if the codebase is using a different naming convention, try to keep it:
+
+```css
+.TheirClasses__WereNamed--LikeThis {
+}
+
+/* This becomes right */
+.SoWeWrite__NewOnes--LikeThat {
+}
+
+/* This becomes wrong */
+.even-if__we-write-it--like-this {
+}
+```
+
+Take that with a grain of salt, however. If the codebase inherited does everything in jQuery or abbreviates all their variable names, _you probably should not keep following that pattern_. More on that in the following sections.
+
+```js
+// This is what we got...
+const lgd = (a) => a.filter(u => u.l);
+
+// ...but we will be better than that
+const filterLoggedInUsers = (userArray) => userArray.filter(user => user.loggedIn);
+```
+
+Another example of consistency
+
+```js
+// Just being silly
+let myList = [], my_Obj = {}
+   var me_numeroUno      = 1;
+
+
+// Better now... and considering these variables should not change
+const myList = [];
+const myObject = {};
+const myNumber = 1;
+```
+
+<br>
+<br>
+
+### 2. Be obvious
+
+Some times we get addicted to achieving the smallest code possible – and we often tap ourselves in the back when we get to really short code or even one-liners. However, think that once the code is passed to a fellow developer hands, they don't share your brain and thoughts, and may likely take a long time to decrypt your code. Leave minification and code mangling to bundlers!
+
+Generally speaking, the more _obvious_ you make it for someone else, the easier it will be to work with it. That said, it might be possible to be overly verbose, and there is certainly a fine line between too little and too much.
+
+#### When is too little?
+
+- Be descriptive with non-trivial conditions
+
+  ```js
+  // Wrong
+  if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
+  }
+
+  // Right
+  const isValidPassword = password.length >= 4 && /^(?=.*\d).{4,}$/.test(password);
+  if (isValidPassword) {
+  }
+  ```
+
+- When naming things, avoid abbreviation. Write as little as possible, but as long as necessary
+
+  ```js
+  // Wrong
+  const dS = 10;
+  const atr = 'William Shakespeare';
+
+  // Right
+  const delaySeconds = 10;
+  const author = 'William Shakespeare';
+  ```
+
+- If an argument expects a specific unit, be clear
+
+  ```js
+  // Wrong
+  function sleep(delay = 1) {
+  }
+
+  // Right
+  function sleep(delaySeconds = 1) {
+  }
+  ```
+
+#### When is too much?
+
+- Avoid comments that tells exactly what the code is already saying
+
+  ```js
+  // If the user is logged in, do this
+  if (user.isLoggedIn) {
+    doThis();
+  }
+  ```
+
+- If your name gets too long, maybe there is something wrong with the code
+
+  ```js
+  // Wrong
+  function updateTheUserStatusThenReloadThePage() {
+  }
+
+  // Right
+  function updateUserStatus() {
+  }
+
+  function reloadPage() {
+  }
+  ```
+
+<br>
+<br>
+
+### 3. Be a never nester
+
+Well, it may be impossible to never nest, but there is a certain threshold to how many levels deep we can go before getting completely lost. For Never nesters, that threshold could be as low as 2-3 levels. There are some easy strategies you can apply to achieve that:
+
+- In **javascript**, you can use guard clauses to exit early, or extract blocks into their own functions.
+
+  ```js
+  // Wrong
+  function isPercentage(val) {
+    if (val >= 0) {
+      if (val < 100) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  // Better
+  function isPercentage(val) {
+    if (val < 0) {
+      return false;
+    }
+
+    if (val > 100) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // Great
+  function isPercentage(val) {
+    var isInRange = (val >= 0 && val <= 100);
+    return isInRange;
+  }
+  ```
+
+- In **liquid**, you may capture blocks into liquid variables.
+- In **HTML**, ask yourself if all those nested `<div>`s are really necessary.
+- In **SASS**, try not to nest rules just because you can (use **BEM** and your nesting needs will drastically reduce)
+
+  ```scss
+  // Wrong
+  .block {
+    .element {
+      .modifier {
+        &:hover {
+        }
+      }
+
+      .other-modifier {
+      }
+    }
+
+    .other-element {
+    }
+  }
+
+  // Right
+  .block {
+  }
+
+  .block__element {
+  }
+
+  .block__other-element {
+  }
+
+  .block__element--modifier {
+  }
+
+  .block__element--other-modifier {
+  }
+  ```
+
+No matter the language, the idea is the same: keep nesting to a minimum, making it easier to keep track of what is going on.
+
+<br>
+<br>
+
+---
+
+## Code formatting
+
+- Use 2 spaces for indentation (don't use tabs)
+- Aim for 120 characters per line
+- Add a newline at the end of a file (UNIX-style `\n`)
+- Don't leave trailing whitespace
+
+<br>
+<br>
+
+---
+
+## Help text, theme editor settings and other text
+
+- Use `Sentence case` instead of `Title Case` or `UPPER CASE`
+- Aim for consistent language when writing help text: The same setting in different liquid sections should _probably_ have the same text.
