@@ -147,26 +147,7 @@ if (a !== '') {
 }
 ```
 
-### Ternary operator (???)
-
-> Should this be a hard rule?
-
-Use single-line ternary operators for short expressions only. Split it up into multiple lines otherwise.
-
-```js
-// Wrong
-var bar = (a === b) ? anIncrediblyLong.map((expression) => expression.whichWillTake === aHugeSpace) : false;
-
-// Right
-var foo = (a === b) ? 1 : 2;
-var bar = (a === b)
-  ? anIncrediblyLong.map((expression) => expression.whichWillTake === aHugeSpace)
-  : false;
-```
-
-### Do not extend built-in prototypes (???)
-
-> Should this even be here? Who does this nowadays?
+### Do not extend built-in prototypes
 
 ```js
 // Wrong
@@ -259,11 +240,9 @@ req.on('end', function onEnd() {
 });
 ```
 
-### No nested closures (???)
+### Avoid nested closures
 
-> Are are keeping this? I don't remember seeing any of our code using this rule.
-
-Use closures, but don't nest them. Otherwise your code will become a mess.
+Use closures, but avoid nesting them whenever possible.
 
 ```js
 // Wrong
@@ -282,71 +261,6 @@ setTimeout(() => {
   client.connect(afterConnect);
 }, 1000);
 ```
-
-### Use slashes for comments (???)
-
-> Is this how we want comments?
-> This can be moved to a "general principles" doc.
-
-Use slashes for both single line and multi line comments. Try to write
-comments that explain higher level mechanisms or clarify difficult
-segments of your code. Don't use comments to restate trivial things.
-
-```js
-// Wrong
-
-/* Execute a regex */
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
-
-// Usage: loadUser(5, function() { ... })
-function loadUser(id, cb) {
-  // ...
-}
-
-// Check if the session is valid
-var isSessionValid = (session.expires < Date.now());
-// If the session is valid
-if (isSessionValid) {
-  // ...
-}
-
-
-// Right
-
-// 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE'', 'SOMETHING', 'VALUE']
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
-
-// This function has a nasty side effect where a failure to increment a
-// redis counter used for statistics will cause an exception. This needs
-// to be fixed in a later iteration.
-function loadUser(id, cb) {
-  // ...
-}
-
-var isSessionValid = (session.expires < Date.now());
-if (isSessionValid) {
-  // ...
-}
-
-```
-
-### `Object.freeze`, `Object.preventExtensions`, `Object.seal`, `with`, `eval` (???)
-
-> Apart from eval, is this still a good idea in 2023? Eg: Functional Programming make use of `Object.freeze`
-
-Crazy shit that you will probably never need. Stay away from it.
-
-### Getters and setters (???)
-
-> Is this still a good idea in 2023?
-
-Do not use setters, they cause more problems for people who try to use your
-software than they can solve.
-
-Feel free to use getters that are free from [side effects][sideeffect], like
-providing a length property for a collection class.
-
-[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
 
 <br>
 <br>

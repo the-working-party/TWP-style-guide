@@ -69,6 +69,30 @@ A good example is a simple card:
 </div>
 ```
 
+### Do not use SASS `&__` or `&--`
+
+That will make it much harder to debug and find the line of code.
+
+```scss
+// Wrong
+.product {
+  color: black;
+
+  &__image {
+    opacity: 1;
+  }
+}
+
+// Right
+.product {
+  color: black;
+}
+
+.product__image {
+  opacity: 1;
+}
+```
+
 ### Avoid over-qualified selectors by (unnecessary) nesting
 
 That means the following code should be avoided. Not only because it produces more code, it also makes it harder to keep track of the parent-children chain, and harder to debug in some cases. The longer the rules, the harder it gets to keep track of the parent when deep nesting is used.
@@ -144,14 +168,6 @@ In slightly more complex situations, blocks can also be elements of other blocks
 ```scss
 .block {
   padding: $spacing-md;
-}
-```
-
-### Use `rem()` when defining custom pixel dimensions
-
-```scss
-.block {
-  font-size: rem(16px);
 }
 ```
 
